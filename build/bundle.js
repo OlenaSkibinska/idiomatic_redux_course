@@ -33067,10 +33067,9 @@ module.exports = camelize;
 
 
 
-const addLoggingToDispatch = store => {
-    const rawDispatch = store.dispatch;
+const logger = store => next => {
     if (!console.group) {
-        return rawDispatch;
+        return next;
     }
     return action => {
         console.group(action.type);
@@ -33083,24 +33082,26 @@ const addLoggingToDispatch = store => {
     };
 };
 
-const addPromiseSupportToDispatch = store => {
-    const rawDispatch = store.dispatch;
-    return action => {
-        if (typeof action.then === 'function') {
-            return action.then(rawDispatch);
-        }
-        return rawDispatch(action);
-    };
+const promise = store => next => action => {
+    if (typeof action.then === 'function') {
+        return action.then(next);
+    }
+    return next(action);
+};
+
+const wrapDispatchWithMiddlewares = (store, middlewares) => {
+    middlewares.slice().reverse().forEach(middleware => store.dispatch = middleware(store)(store.dispatch));
 };
 
 const configureStore = () => {
     const store = Object(__WEBPACK_IMPORTED_MODULE_0_redux__["c" /* createStore */])(__WEBPACK_IMPORTED_MODULE_1__reducers__["a" /* default */]);
+    const middlewares = [promise];
 
     if (process.env.NODE_ENV !== 'production') {
-        store.dispatch = addLoggingToDispatch(store);
+        middlewares.push(logger);
     }
 
-    store.dispatch = addPromiseSupportToDispatch(store);
+    wrapDispatchWithMiddlewares(store, middlewares);
 
     return store;
 };
