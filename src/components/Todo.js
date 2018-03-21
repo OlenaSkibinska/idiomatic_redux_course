@@ -1,10 +1,6 @@
 import React from 'react';
 
-export const Todo = ({
-                  onClick,
-                  completed,
-                  text
-              }) => (
+export const Todo = ({onClick, completed, text}) => (
     <li
         onClick={onClick}
         style={{
