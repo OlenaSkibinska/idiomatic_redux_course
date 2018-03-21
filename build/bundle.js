@@ -8064,7 +8064,7 @@ function warning(message) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__matchPath__ = __webpack_require__(47);
 /* unused harmony reexport matchPath */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__withRouter__ = __webpack_require__(182);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_8__withRouter__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_8__withRouter__["a"]; });
 
 
 
@@ -15762,7 +15762,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 const store = Object(__WEBPACK_IMPORTED_MODULE_2__configureStore__["a" /* default */])();
-__WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.render(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__components_Root__["a" /* default */], { store: store }), document.getElementById('root'));
+Object(__WEBPACK_IMPORTED_MODULE_1_react_dom__["render"])(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__components_Root__["a" /* default */], { store: store }), document.getElementById('root'));
 
 /***/ }),
 /* 117 */
@@ -33770,7 +33770,7 @@ const Root = ({ store }) => __WEBPACK_IMPORTED_MODULE_0_react___default.a.create
     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         __WEBPACK_IMPORTED_MODULE_2_react_router_dom__["a" /* BrowserRouter */],
         null,
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_react_router_dom__["b" /* Route */], { path: '/:filter?', component: __WEBPACK_IMPORTED_MODULE_3__App__["a" /* default */] })
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_react_router_dom__["c" /* Route */], { path: '/:filter?', component: __WEBPACK_IMPORTED_MODULE_3__App__["a" /* default */] })
     )
 );
 
@@ -37256,14 +37256,14 @@ class VisibleTodoList extends __WEBPACK_IMPORTED_MODULE_6_react__["Component"] {
     }
 }
 
-const mapStateToProps = (state, { params }) => {
-    const filter = params.filter || 'all';
+const mapStateToProps = (state, { match }) => {
+    const filter = match.params.filter || 'all';
     return {
         todos: Object(__WEBPACK_IMPORTED_MODULE_4__reducers__["b" /* getVisibleTodos */])(state, filter), filter
     };
 };
 
-VisibleTodoList = Object(__WEBPACK_IMPORTED_MODULE_1_react_router__["b" /* withRouter */])(Object(__WEBPACK_IMPORTED_MODULE_0_react_redux__["b" /* connect */])(mapStateToProps, __WEBPACK_IMPORTED_MODULE_2__actions__)(VisibleTodoList));
+VisibleTodoList = Object(__WEBPACK_IMPORTED_MODULE_1_react_router__["a" /* withRouter */])(Object(__WEBPACK_IMPORTED_MODULE_0_react_redux__["b" /* connect */])(mapStateToProps, __WEBPACK_IMPORTED_MODULE_2__actions__)(VisibleTodoList));
 
 /* harmony default export */ __webpack_exports__["a"] = (VisibleTodoList);
 
@@ -47598,13 +47598,13 @@ const Footer = () => __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement
         { filter: 'all' },
         'All,'
     ),
-    ', ',
+    ' ',
     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         __WEBPACK_IMPORTED_MODULE_1__FilterLink__["a" /* default */],
         { filter: 'active' },
         'Active,'
     ),
-    ', ',
+    ' ',
     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         __WEBPACK_IMPORTED_MODULE_1__FilterLink__["a" /* default */],
         { filter: 'completed' },
@@ -47621,14 +47621,15 @@ const Footer = () => __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_router__ = __webpack_require__(43);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_router_dom__ = __webpack_require__(285);
 
 
 
 const FilterLink = ({ filter, children }) => __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-    __WEBPACK_IMPORTED_MODULE_1_react_router__["Link"],
+    __WEBPACK_IMPORTED_MODULE_1_react_router_dom__["b" /* NavLink */],
     {
-        to: filter === 'all' ? '' : filter,
+        exact: true,
+        to: '/' + (filter === 'all' ? '' : filter),
         activeStyle: {
             textDecoration: 'none',
             color: 'black'
@@ -47845,13 +47846,13 @@ Link.contextTypes = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__MemoryRouter__ = __webpack_require__(290);
 /* unused harmony reexport MemoryRouter */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__NavLink__ = __webpack_require__(291);
-/* unused harmony reexport NavLink */
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_4__NavLink__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Prompt__ = __webpack_require__(292);
 /* unused harmony reexport Prompt */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Redirect__ = __webpack_require__(293);
 /* unused harmony reexport Redirect */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Route__ = __webpack_require__(284);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_7__Route__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_7__Route__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Router__ = __webpack_require__(281);
 /* unused harmony reexport Router */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__StaticRouter__ = __webpack_require__(294);
@@ -48755,7 +48756,7 @@ NavLink.defaultProps = {
   ariaCurrent: 'true'
 };
 
-/* unused harmony default export */ var _unused_webpack_default_export = (NavLink);
+/* harmony default export */ __webpack_exports__["a"] = (NavLink);
 
 /***/ }),
 /* 292 */
