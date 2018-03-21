@@ -34264,7 +34264,7 @@ module.exports = isObjectLike;
 "use strict";
 
 
-const todos = (state = [], action) => {
+const byId = (state = {}, action) => {
     switch (action.type) {
         case 'ADD_TODO':
             return [...state, todo(undefined, action)];
