@@ -1,33 +1,11 @@
+import 'babel-polyfill';
 import React from 'react';
-import {createStore} from 'redux';
-import ReactDOM from 'react-dom';
-import {Component} from 'react';
-import {Provider} from 'react-redux';
-import {connect} from 'react-redux';
-import todoApp from './reducers'
-import {loadState, saveState} from './localStorage'
-import TodoList from './components/TodoList'
-import throttle from 'lodash/throttle';
+import {render} from 'react-dom';
+import configureStore from './configureStore';
+import Root from './components/Root';
 
-const Link = ({
-                  active,
-                  children,
-                  onClick
-              }) => {
-    if (active) {
-        return <span>{children}</span>
-    }
-    return (
-        <a href='#'
-           onClick={e => {
-               e.preventDefault();
-               onClick();
-           }}
-        >
-            {children}
-        </a>
-    );
-};
+
+
 
 const mapStateToLinkProps = (state, ownProps) => ({
     active: ownProps.filter === state.visibilityFilter
@@ -83,21 +61,11 @@ const VisibleTodoList = connect(
 
 
 
-const persistedState = loadState();
-const store = createStore(
-    todoApp,
-    persistedState
-);
 
-store.subscribe(throttle(() => {
-    saveState({
-        todos: store.getState().todos
-    });
-}, 1000));
-ReactDOM.render(
-    <Provider store={store}>
-        <TodoApp/>
-    </Provider>,
+const store = configureStore();
+
+render(
+    <Root store={store} />,
     document.getElementById('root')
 );
 

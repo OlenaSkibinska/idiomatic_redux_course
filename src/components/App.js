@@ -3,10 +3,11 @@ import VisibleTodoList from './VisibleTodoList'
 import AddTodo from './AddTodo';
 import Footer from './Footer';
 
-export const App = () => (
+const App = () => (
     <div>
         <AddTodo/>
         <VisibleTodoList/>
         <Footer/>
     </div>
 );
+export default App;
