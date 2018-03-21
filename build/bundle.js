@@ -11819,6 +11819,8 @@ Route.childContextTypes = {
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_node_uuid__ = __webpack_require__(185);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_node_uuid___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_node_uuid__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__api__ = __webpack_require__(298);
+
 
 
 const receiveTodos = (filter, response) => ({
@@ -11826,7 +11828,9 @@ const receiveTodos = (filter, response) => ({
     filter,
     response
 });
-/* harmony export (immutable) */ __webpack_exports__["receiveTodos"] = receiveTodos;
+
+const fetchTodos = filter => __WEBPACK_IMPORTED_MODULE_1__api__["a" /* fetchTodos */](filter).then(response => receiveTodos(filter, response));
+/* harmony export (immutable) */ __webpack_exports__["fetchTodos"] = fetchTodos;
 
 
 const addTodo = text => ({
@@ -33079,12 +33083,24 @@ const addLoggingToDispatch = store => {
     };
 };
 
+const addPromiseSupportToDispatch = store => {
+    const rawDispatch = store.dispatch;
+    return action => {
+        if (typeof action.then === 'function') {
+            return action.then(rawDispatch);
+        }
+        return rawDispatch(action);
+    };
+};
+
 const configureStore = () => {
     const store = Object(__WEBPACK_IMPORTED_MODULE_0_redux__["c" /* createStore */])(__WEBPACK_IMPORTED_MODULE_1__reducers__["a" /* default */]);
 
     if (process.env.NODE_ENV !== 'production') {
         store.dispatch = addLoggingToDispatch(store);
     }
+
+    store.dispatch = addPromiseSupportToDispatch(store);
 
     return store;
 };
@@ -37215,9 +37231,8 @@ const App = () => __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__actions__ = __webpack_require__(82);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__TodoList__ = __webpack_require__(276);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__reducers__ = __webpack_require__(72);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__api__ = __webpack_require__(298);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_react__);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
@@ -37229,8 +37244,7 @@ function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in ob
 
 
 
-
-class VisibleTodoList extends __WEBPACK_IMPORTED_MODULE_6_react__["Component"] {
+class VisibleTodoList extends __WEBPACK_IMPORTED_MODULE_5_react__["Component"] {
     componentDidMount() {
         this.fetchData();
     }
@@ -37242,15 +37256,15 @@ class VisibleTodoList extends __WEBPACK_IMPORTED_MODULE_6_react__["Component"] {
     }
 
     fetchData() {
-        const { filter, receiveTodos } = this.props;
-        Object(__WEBPACK_IMPORTED_MODULE_5__api__["a" /* fetchTodos */])(filter).then(todos => receiveTodos(filter, todos));
+        const { filter, fetchTodos } = this.props;
+        fetchTodos(filter);
     }
 
     render() {
         const _props = this.props,
               { toggleTodo } = _props,
               rest = _objectWithoutProperties(_props, ['toggleTodo']);
-        return __WEBPACK_IMPORTED_MODULE_6_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__TodoList__["a" /* default */], _extends({}, rest, {
+        return __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__TodoList__["a" /* default */], _extends({}, rest, {
             onTodoClick: toggleTodo
         }));
     }
