@@ -15111,7 +15111,7 @@ module.exports = Symbol;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__matchPath__ = __webpack_require__(136);
 /* unused harmony reexport matchPath */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__withRouter__ = __webpack_require__(507);
-/* unused harmony reexport withRouter */
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return __WEBPACK_IMPORTED_MODULE_8__withRouter__["a"]; });
 
 
 
@@ -46635,7 +46635,7 @@ var withRouter = function withRouter(Component) {
   return __WEBPACK_IMPORTED_MODULE_2_hoist_non_react_statics___default()(C, Component);
 };
 
-/* unused harmony default export */ var _unused_webpack_default_export = (withRouter);
+/* harmony default export */ __webpack_exports__["a"] = (withRouter);
 
 /***/ }),
 /* 508 */
@@ -46652,13 +46652,11 @@ var withRouter = function withRouter(Component) {
 
 
 
-const App = ({ params }) => __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+const App = () => __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
     'div',
     null,
     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__AddTodo__["a" /* default */], null),
-    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__VisibleTodoList__["a" /* default */], {
-        filter: params.filter || 'all'
-    }),
+    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__VisibleTodoList__["a" /* default */], null),
     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__Footer__["a" /* default */], null)
 );
 /* harmony default export */ __webpack_exports__["a"] = (App);
@@ -46669,7 +46667,11 @@ const App = ({ params }) => __WEBPACK_IMPORTED_MODULE_0_react___default.a.create
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react_redux__ = __webpack_require__(128);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__TodoList__ = __webpack_require__(605);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_router__ = __webpack_require__(200);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__actions__ = __webpack_require__(511);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__TodoList__ = __webpack_require__(605);
+
+
 
 
 
@@ -46683,17 +46685,15 @@ const getVisibleTodos = (todos, filter) => {
             return todos.filter(t => !t.completed);
     }
 };
-const mapStateToProps = (state, ownProps) => ({
-    todos: getVisibleTodos(state.todos, ownProps.filter)
+const mapStateToProps = (state, { params }) => ({
+    todos: getVisibleTodos(state.todos, params.filter || 'all')
 });
-const mapDispatchToProps = dispatch => {
-    return {
-        onTodoClick: id => {
-            dispatch(toggleTodo(id));
-        }
-    };
-};
-const VisibleTodoList = Object(__WEBPACK_IMPORTED_MODULE_0_react_redux__["b" /* connect */])(mapStateToProps, mapDispatchToProps)(VisibleTodoList);
+const mapDispatchToProps = dispatch => ({
+    onTodoClick(id) {
+        dispatch(Object(__WEBPACK_IMPORTED_MODULE_2__actions__["b" /* toggleTodo */])(id));
+    }
+});
+const VisibleTodoList = Object(__WEBPACK_IMPORTED_MODULE_1_react_router__["e" /* withRouter */])(Object(__WEBPACK_IMPORTED_MODULE_0_react_redux__["b" /* connect */])(mapStateToProps, mapDispatchToProps)(__WEBPACK_IMPORTED_MODULE_3__TodoList__["a" /* default */]));
 
 /* harmony default export */ __webpack_exports__["a"] = (VisibleTodoList);
 
@@ -46756,7 +46756,7 @@ const toggleTodo = id => ({
     id
 
 });
-/* unused harmony export toggleTodo */
+/* harmony export (immutable) */ __webpack_exports__["b"] = toggleTodo;
 
 
 /***/ }),
@@ -57072,8 +57072,7 @@ const TodoList = ({ todos, onTodoClick }) => __WEBPACK_IMPORTED_MODULE_0_react__
         onClick: () => onTodoClick(todo.id)
     })))
 );
-/* unused harmony export TodoList */
-
+/* harmony default export */ __webpack_exports__["a"] = (TodoList);
 
 /***/ }),
 /* 606 */
