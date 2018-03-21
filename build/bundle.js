@@ -11816,8 +11816,17 @@ Route.childContextTypes = {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_node_uuid__ = __webpack_require__(185);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_node_uuid___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_node_uuid__);
+
+
+const receiveTodos = (filter, response) => ({
+    type: 'RECEIVE_TODOS',
+    filter,
+    response
+});
+/* harmony export (immutable) */ __webpack_exports__["receiveTodos"] = receiveTodos;
 
 
 const addTodo = text => ({
@@ -11827,7 +11836,7 @@ const addTodo = text => ({
     text
 
 });
-/* harmony export (immutable) */ __webpack_exports__["a"] = addTodo;
+/* harmony export (immutable) */ __webpack_exports__["addTodo"] = addTodo;
 
 
 const toggleTodo = id => ({
@@ -11835,7 +11844,7 @@ const toggleTodo = id => ({
     id
 
 });
-/* harmony export (immutable) */ __webpack_exports__["b"] = toggleTodo;
+/* harmony export (immutable) */ __webpack_exports__["toggleTodo"] = toggleTodo;
 
 
 /***/ }),
@@ -37209,6 +37218,10 @@ const App = () => __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__api__ = __webpack_require__(298);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_react__);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
 
 
 
@@ -37219,17 +37232,27 @@ const App = () => __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 
 class VisibleTodoList extends __WEBPACK_IMPORTED_MODULE_6_react__["Component"] {
     componentDidMount() {
-        Object(__WEBPACK_IMPORTED_MODULE_5__api__["a" /* fetchTodos */])(this.props.filter).then(todos => console.log(this.props.filter, todos));
+        this.fetchData();
     }
 
     componentDidUpdate(prevProps) {
         if (this.props.filter !== prevProps.filter) {
-            Object(__WEBPACK_IMPORTED_MODULE_5__api__["a" /* fetchTodos */])(this.props.filter).then(todos => console.log(this.props.filter, todos));
+            this.fetchData();
         }
     }
 
+    fetchData() {
+        const { filter, receiveTodos } = this.props;
+        Object(__WEBPACK_IMPORTED_MODULE_5__api__["a" /* fetchTodos */])(filter).then(todos => receiveTodos(filter, todos));
+    }
+
     render() {
-        return __WEBPACK_IMPORTED_MODULE_6_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__TodoList__["a" /* default */], this.props);
+        const _props = this.props,
+              { toggleTodo } = _props,
+              rest = _objectWithoutProperties(_props, ['toggleTodo']);
+        return __WEBPACK_IMPORTED_MODULE_6_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__TodoList__["a" /* default */], _extends({}, rest, {
+            onTodoClick: toggleTodo
+        }));
     }
 }
 
@@ -37240,7 +37263,7 @@ const mapStateToProps = (state, { params }) => {
     };
 };
 
-VisibleTodoList = Object(__WEBPACK_IMPORTED_MODULE_1_react_router__["b" /* withRouter */])(Object(__WEBPACK_IMPORTED_MODULE_0_react_redux__["b" /* connect */])(mapStateToProps, { onTodoClick: __WEBPACK_IMPORTED_MODULE_2__actions__["b" /* toggleTodo */] })(VisibleTodoList));
+VisibleTodoList = Object(__WEBPACK_IMPORTED_MODULE_1_react_router__["b" /* withRouter */])(Object(__WEBPACK_IMPORTED_MODULE_0_react_redux__["b" /* connect */])(mapStateToProps, __WEBPACK_IMPORTED_MODULE_2__actions__)(VisibleTodoList));
 
 /* harmony default export */ __webpack_exports__["a"] = (VisibleTodoList);
 
@@ -47543,7 +47566,7 @@ let AddTodo = ({ dispatch }) => {
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             'button',
             { onClick: () => {
-                    dispatch(Object(__WEBPACK_IMPORTED_MODULE_2__actions__["a" /* addTodo */])(input.value));
+                    dispatch(Object(__WEBPACK_IMPORTED_MODULE_2__actions__["addTodo"])(input.value));
                     input.value = '';
                 } },
             'Add Todo'
