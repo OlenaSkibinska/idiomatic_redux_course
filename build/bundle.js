@@ -13216,7 +13216,7 @@ const fetchTodos = filter => (dispatch, getState) => {
 /* harmony export (immutable) */ __webpack_exports__["fetchTodos"] = fetchTodos;
 
 
-const addTodo = text => dispatch => __WEBPACK_IMPORTED_MODULE_1__api__["addTodo"](text).then(response => {
+const addTodo = text => dispatch => __WEBPACK_IMPORTED_MODULE_1__api__["a" /* addTodo */](text).then(response => {
     dispatch({
         type: 'ADD_TODO_SUCCESS',
         response: Object(__WEBPACK_IMPORTED_MODULE_3_normalizr__["normalize"])(response, __WEBPACK_IMPORTED_MODULE_4__schema__["b" /* todo */])
@@ -13225,7 +13225,7 @@ const addTodo = text => dispatch => __WEBPACK_IMPORTED_MODULE_1__api__["addTodo"
 /* harmony export (immutable) */ __webpack_exports__["addTodo"] = addTodo;
 
 
-const toggleTodo = id => dispatch => __WEBPACK_IMPORTED_MODULE_1__api__["toggleTodo"](id).then(response => {
+const toggleTodo = id => dispatch => __WEBPACK_IMPORTED_MODULE_1__api__["c" /* toggleTodo */](id).then(response => {
     dispatch({
         type: 'TOGGLE_TODO_SUCCESS',
         response: Object(__WEBPACK_IMPORTED_MODULE_3_normalizr__["normalize"])(response, __WEBPACK_IMPORTED_MODULE_4__schema__["b" /* todo */])
@@ -49893,6 +49893,26 @@ const fetchTodos = filter => delay(500).then(() => {
     }
 });
 /* harmony export (immutable) */ __webpack_exports__["b"] = fetchTodos;
+
+
+const addTodo = text => delay(500).then(() => {
+    const todo = {
+        id: Object(__WEBPACK_IMPORTED_MODULE_0_node_uuid__["v4"])(),
+        text,
+        completed: false
+    };
+    fakeDatabase.todos.push(todo);
+    return todo;
+});
+/* harmony export (immutable) */ __webpack_exports__["a"] = addTodo;
+
+
+const toggleTodo = id => delay(500).then(() => {
+    const todo = fakeDatabase.todos.find(t => t.id === id);
+    todo.completed = !todo.completed;
+    return todo;
+});
+/* harmony export (immutable) */ __webpack_exports__["c"] = toggleTodo;
 
 
 /***/ }),
