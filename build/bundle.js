@@ -13225,10 +13225,11 @@ const addTodo = text => dispatch => __WEBPACK_IMPORTED_MODULE_1__api__["addTodo"
 /* harmony export (immutable) */ __webpack_exports__["addTodo"] = addTodo;
 
 
-const toggleTodo = id => ({
-    type: 'TOGGLE_TODO',
-    id
-
+const toggleTodo = id => dispatch => __WEBPACK_IMPORTED_MODULE_1__api__["toggleTodo"](id).then(response => {
+    dispatch({
+        type: 'TOGGLE_TODO_SUCCESS',
+        response: Object(__WEBPACK_IMPORTED_MODULE_3_normalizr__["normalize"])(response, __WEBPACK_IMPORTED_MODULE_4__schema__["b" /* todo */])
+    });
 });
 /* harmony export (immutable) */ __webpack_exports__["toggleTodo"] = toggleTodo;
 
@@ -35495,12 +35496,21 @@ const getTodo = (state, id) => state[id];
 
 
 const createList = filter => {
+    const handleToggle = (state, action) => {
+        const { result: toggledId, entities } = action.response;
+        const { completed } = entities.todos[toggledId];
+        const shouldRemove = completed && filter === 'active' || !completed && filter === 'completed';
+        return shouldRemove ? state.filter(id => id !== toggledId) : state;
+    };
+
     const ids = (state = [], action) => {
         switch (action.type) {
             case 'FETCH_TODOS_SUCCESS':
                 return filter === action.filter ? action.response.result : state;
             case 'ADD_TODO_SUCCESS':
                 return filter !== 'completed' ? [...state, action.response.result] : state;
+            case 'TOGGLE_TODO_SUCCESS':
+                return handleToggle(state, action);
             default:
                 return state;
         }
@@ -50340,10 +50350,10 @@ exports.default = ObjectSchema;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_normalizr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_normalizr__);
 
 
-const todo = new __WEBPACK_IMPORTED_MODULE_0_normalizr__["Schema"]('todos');
+const todo = new __WEBPACK_IMPORTED_MODULE_0_normalizr__["schema"].Entity('todos');
 /* harmony export (immutable) */ __webpack_exports__["b"] = todo;
 
-const arrayOfTodos = Object(__WEBPACK_IMPORTED_MODULE_0_normalizr__["arrayOf"])(todo);
+const arrayOfTodos = new __WEBPACK_IMPORTED_MODULE_0_normalizr__["schema"].Array(todo);
 /* harmony export (immutable) */ __webpack_exports__["a"] = arrayOfTodos;
 
 
