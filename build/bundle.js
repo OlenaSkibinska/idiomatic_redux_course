@@ -13059,7 +13059,7 @@ const fetchTodos = filter => (dispatch, getState) => {
         filter
     });
 
-    return __WEBPACK_IMPORTED_MODULE_1__api__["a" /* fetchTodos */](filter).then(response => {
+    return __WEBPACK_IMPORTED_MODULE_1__api__["b" /* fetchTodos */](filter).then(response => {
         dispatch({
             type: 'FETCH_TODOS_SUCCESS',
             filter,
@@ -13076,12 +13076,11 @@ const fetchTodos = filter => (dispatch, getState) => {
 /* harmony export (immutable) */ __webpack_exports__["fetchTodos"] = fetchTodos;
 
 
-const addTodo = text => ({
-
-    type: 'ADD_TODO',
-    id: Object(__WEBPACK_IMPORTED_MODULE_0_node_uuid__["v4"])(),
-    text
-
+const addTodo = text => dispatch => __WEBPACK_IMPORTED_MODULE_1__api__["addTodo"](text).then(response => {
+    dispatch({
+        type: 'ADD_TODO_SUCCESS',
+        response
+    });
 });
 /* harmony export (immutable) */ __webpack_exports__["addTodo"] = addTodo;
 
@@ -35183,6 +35182,10 @@ const byId = (state = {}, action) => {
                 nextState[todo.id] = todo;
             });
             return nextState;
+        case 'ADD_TODO_SUCCESS':
+            return _extends({}, state, {
+                [action.response.id]: action.response
+            });
         default:
             return state;
     }
@@ -35204,12 +35207,11 @@ const getTodo = (state, id) => state[id];
 
 const createList = filter => {
     const ids = (state = [], action) => {
-        if (action.filter !== filter) {
-            return state;
-        }
         switch (action.type) {
             case 'FETCH_TODOS_SUCCESS':
-                return action.response.map(todo => todo.id);
+                return filter === action.filter ? action.response.map(todo => todo.id) : state;
+            case 'ADD_TODO_SUCCESS':
+                return filter !== 'completed' ? [...state, action.response.id] : state;
             default:
                 return state;
         }
@@ -49562,7 +49564,7 @@ const fetchTodos = filter => delay(500).then(() => {
             throw new Error('Unknown filter: ${filter.}');
     }
 });
-/* harmony export (immutable) */ __webpack_exports__["a"] = fetchTodos;
+/* harmony export (immutable) */ __webpack_exports__["b"] = fetchTodos;
 
 
 /***/ }),
