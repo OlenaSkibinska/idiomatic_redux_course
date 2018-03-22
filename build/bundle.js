@@ -13047,15 +13047,19 @@ const requestTodos = filter => ({
     type: 'REQUEST_TODOS',
     filter
 });
-/* harmony export (immutable) */ __webpack_exports__["requestTodos"] = requestTodos;
-
 const receiveTodos = (filter, response) => ({
     type: 'RECEIVE_TODOS',
     filter,
     response
 });
 
-const fetchTodos = filter => __WEBPACK_IMPORTED_MODULE_1__api__["a" /* fetchTodos */](filter).then(response => receiveTodos(filter, response));
+const fetchTodos = filter => dispatch => {
+    dispatch(requestTodos(filter));
+
+    return __WEBPACK_IMPORTED_MODULE_1__api__["a" /* fetchTodos */](filter).then(response => {
+        dispatch(receiveTodos(filter, response));
+    });
+};
 /* harmony export (immutable) */ __webpack_exports__["fetchTodos"] = fetchTodos;
 
 
@@ -34579,8 +34583,10 @@ module.exports = camelize;
 
 
 
+const thunk = store => next => action => typeof action === 'function' ? action(store.dispatch) : next(action);
+
 const configureStore = () => {
-    const middlewares = [__WEBPACK_IMPORTED_MODULE_2_redux_promise___default.a];
+    const middlewares = [thunk];
 
     if (process.env.NODE_ENV !== 'production') {
         middlewares.push(Object(__WEBPACK_IMPORTED_MODULE_3_redux_logger__["createLogger"])());
@@ -39375,8 +39381,7 @@ class VisibleTodoList extends __WEBPACK_IMPORTED_MODULE_5_react__["Component"] {
     }
 
     fetchData() {
-        const { filter, fetchTodos, requestTodos } = this.props;
-        requestTodos(filter);
+        const { filter, fetchTodos } = this.props;
         fetchTodos(filter);
     }
 
